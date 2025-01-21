@@ -1,0 +1,76 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: #000;
+  color: #fff;
+  font-family: "Arial", sans-serif;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.container {
+  position: relative;
+  width: 100vmin;
+  height: 100vmin;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hypercube {
+  width: 80%;
+  height: 80%;
+  margin: 2rem;
+}
+
+.vertex {
+  fill: #fff;
+  transition: fill 0.3s;
+}
+
+.vertex:hover {
+  fill: #ff4da6;
+  r: 8;
+}
+
+.edge {
+  stroke: #fff;
+  stroke-width: 1;
+  opacity: 0.5;
+  transition: all 0.3s;
+}
+
+.edge:hover {
+  stroke: #ff4da6;
+  stroke-width: 2;
+  opacity: 1;
+}
+
+.vertex-label {
+  fill: #fff;
+  font-size: 12px;
+  text-anchor: middle;
+  dominant-baseline: middle;
+}
+
+.controls {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+}
+
+.controls label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.8rem;
+}
+
+input[type="range"] {
+  width: 100px;
+}

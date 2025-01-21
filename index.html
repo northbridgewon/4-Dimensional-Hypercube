@@ -1,0 +1,23 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>4D Hypercube Visualization</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <svg class="hypercube" viewBox="-250 -250 500 500">
+      <g class="edges"></g>
+      <g class="vertices"></g>
+      <g class="labels"></g>
+    </svg>
+    
+    <div class="controls">
+      <label>Rotation W-X: <input type="range" id="rotateWX" min="0" max="360" value="0"></label>
+      <label>Rotation W-Y: <input type="range" id="rotateWY" min="0" max="360" value="0"></label>
+      <label>Rotation W-Z: <input type="range" id="rotateWZ" min="0" max="360" value="0"></label>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
