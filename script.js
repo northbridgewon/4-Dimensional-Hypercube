@@ -54,6 +54,7 @@ class HypercubeVisualization {
     this.verticesGroup = this.svg.querySelector('.vertices');
     this.edgesGroup = this.svg.querySelector('.edges');
     this.labelsGroup = this.svg.querySelector('.labels');
+    this.isAutoRotating = true;
     
     this.initializeGeometry();
     this.setupControls();
@@ -90,16 +91,35 @@ class HypercubeVisualization {
       const slider = document.getElementById(`rotate${plane}`);
       slider.addEventListener('input', () => this.render());
     });
+
+    const toggleRotationButton = document.getElementById('toggleRotation');
+    toggleRotationButton.addEventListener('click', () => {
+      this.isAutoRotating = !this.isAutoRotating;
+      toggleRotationButton.textContent = this.isAutoRotating ? 'Pause Auto-Rotation' : 'Resume Auto-Rotation';
+    });
+
+    const resetViewButton = document.getElementById('resetView');
+    resetViewButton.addEventListener('click', () => {
+      document.getElementById('rotateWX').value = 0;
+      document.getElementById('rotateWY').value = 0;
+      document.getElementById('rotateWZ').value = 0;
+      this.render();
+    });
   }
 
   autoRotate() {
     let tick = 0;
+    const rotationSpeedSlider = document.getElementById('rotationSpeed');
+
     setInterval(() => {
-      tick += 0.5;
-      document.getElementById('rotateWX').value = Math.sin(tick * 0.02) * 180 + 180;
-      document.getElementById('rotateWY').value = Math.sin(tick * 0.015) * 180 + 180;
-      document.getElementById('rotateWZ').value = Math.sin(tick * 0.01) * 180 + 180;
-      this.render();
+      if (this.isAutoRotating) {
+        const currentSpeed = parseFloat(rotationSpeedSlider.value) || 1.0;
+        tick += 0.5 * currentSpeed;
+        document.getElementById('rotateWX').value = Math.sin(tick * 0.02) * 180 + 180;
+        document.getElementById('rotateWY').value = Math.sin(tick * 0.015) * 180 + 180;
+        document.getElementById('rotateWZ').value = Math.sin(tick * 0.01) * 180 + 180;
+        this.render();
+      }
     }, 50);
   }
 

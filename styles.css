@@ -28,24 +28,27 @@ body {
 
 .vertex {
   fill: #fff;
-  transition: fill 0.3s;
+  transition: fill 0.3s, r 0.3s, stroke 0.3s, stroke-width 0.3s; /* Added transitions for r, stroke, stroke-width */
+  r: 5; /* Explicitly set base radius for clarity, though script.js also sets it */
 }
 
 .vertex:hover {
   fill: #ff4da6;
-  r: 8;
+  r: 10; /* Increased radius */
+  stroke: #fff; /* Added white stroke */
+  stroke-width: 2px; /* Stroke width */
 }
 
 .edge {
   stroke: #fff;
-  stroke-width: 1;
-  opacity: 0.5;
+  stroke-width: 1.5; /* Increased stroke-width */
+  opacity: 0.7;    /* Increased opacity */
   transition: all 0.3s;
 }
 
 .edge:hover {
   stroke: #ff4da6;
-  stroke-width: 2;
+  stroke-width: 3; /* Increased stroke-width for hover */
   opacity: 1;
 }
 
@@ -58,6 +61,8 @@ body {
 
 .controls {
   display: flex;
+  justify-content: center; /* Center the items in the flex container */
+  flex-wrap: wrap; /* Allow items to wrap if needed */
   gap: 1rem;
   padding: 1rem;
   background: rgba(255, 255, 255, 0.1);
@@ -69,8 +74,48 @@ body {
   flex-direction: column;
   align-items: center;
   font-size: 0.8rem;
+  text-align: center; /* Ensure label text is centered */
 }
 
 input[type="range"] {
   width: 100px;
+}
+
+.controls button {
+  padding: 0.5rem 1rem;
+  background: #333;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.controls button:hover {
+  background: #555;
+}
+
+#infoText {
+  max-width: 600px;
+  margin: 0 auto 20px auto;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  text-align: center; 
+}
+
+#infoText h2 {
+  margin-top: 0;
+  color: #eee;
+}
+
+#infoText h3 {
+  margin-top: 0;
+  color: #ddd; 
+}
+
+#infoText p {
+  line-height: 1.6;
+  font-size: 0.9rem;
+  text-align: left;
 }
