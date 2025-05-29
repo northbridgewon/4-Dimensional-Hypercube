@@ -87,33 +87,88 @@ class HypercubeVisualization {
   }
 
   setupControls() {
+    console.log("Setting up controls...");
     ['WX', 'WY', 'WZ'].forEach(plane => {
       const slider = document.getElementById(`rotate${plane}`);
       slider.addEventListener('input', () => this.render());
     });
 
     const toggleRotationButton = document.getElementById('toggleRotation');
-    toggleRotationButton.addEventListener('click', () => {
-      this.isAutoRotating = !this.isAutoRotating;
-      toggleRotationButton.textContent = this.isAutoRotating ? 'Pause Auto-Rotation' : 'Resume Auto-Rotation';
-    });
+    console.log("Toggle button element:", toggleRotationButton);
+    if (!toggleRotationButton) {
+      console.error("CRITICAL ERROR: toggleRotation button not found in DOM! Cannot attach event listener.");
+    } else {
+      toggleRotationButton.addEventListener('click', () => {
+        console.log("Toggle Auto-Rotation: Click detected. Current 'this':", this);
+        console.log("Toggle Auto-Rotation: 'this.isAutoRotating' before toggle:", this.isAutoRotating);
+        this.isAutoRotating = !this.isAutoRotating;
+        console.log("Toggle Auto-Rotation: 'this.isAutoRotating' after toggle:", this.isAutoRotating);
+        
+        const buttonElement = document.getElementById('toggleRotation');
+        if (buttonElement) {
+            buttonElement.textContent = this.isAutoRotating ? 'Pause Auto-Rotation' : 'Resume Auto-Rotation';
+            console.log("Toggle Auto-Rotation: Button text updated to:", buttonElement.textContent);
+        } else {
+            console.error("Toggle Auto-Rotation: CRITICAL - toggleRotation button element not found when trying to update text!");
+        }
+      });
+    }
 
     const resetViewButton = document.getElementById('resetView');
-    resetViewButton.addEventListener('click', () => {
-      document.getElementById('rotateWX').value = 0;
-      document.getElementById('rotateWY').value = 0;
-      document.getElementById('rotateWZ').value = 0;
-      this.render();
-    });
+    console.log("Reset view button element:", resetViewButton);
+    if (!resetViewButton) {
+      console.error("CRITICAL ERROR: resetView button not found in DOM! Cannot attach event listener.");
+    } else {
+      resetViewButton.addEventListener('click', () => {
+        console.log("Reset View: Click detected. Current 'this':", this);
+        const wxSlider = document.getElementById('rotateWX');
+        const wySlider = document.getElementById('rotateWY');
+        const wzSlider = document.getElementById('rotateWZ');
+        console.log("Reset View: Sliders fetched:", wxSlider, wySlider, wzSlider);
+
+        if (wxSlider && wySlider && wzSlider) {
+            console.log("Reset View: Setting slider values to 0.");
+            wxSlider.value = 0;
+            wySlider.value = 0;
+            wzSlider.value = 0;
+            console.log("Reset View: Slider values set. Calling render().");
+            this.render();
+            console.log("Reset View: render() call completed.");
+        } else {
+            console.error("Reset View: CRITICAL - One or more rotation sliders not found during reset! WX:", wxSlider, "WY:", wySlider, "WZ:", wzSlider);
+        }
+      });
+    }
+
+    const rotationSpeedSliderElement = document.getElementById('rotationSpeed');
+    if (!rotationSpeedSliderElement) {
+        console.error("SetupControls: CRITICAL - rotationSpeed slider not found in DOM! Cannot attach input listener.");
+    } else {
+        console.log("SetupControls: rotationSpeed slider element found:", rotationSpeedSliderElement);
+        rotationSpeedSliderElement.addEventListener('input', () => {
+            console.log("Rotation Speed Slider: Input detected. New value:", rotationSpeedSliderElement.value);
+        });
+        console.log("SetupControls: Input event listener attached to rotationSpeed slider.");
+    }
   }
 
   autoRotate() {
     let tick = 0;
     const rotationSpeedSlider = document.getElementById('rotationSpeed');
+    // console.log("Rotation speed slider element:", rotationSpeedSlider); // This is logged in setupControls now
+    if (!rotationSpeedSlider) {
+      // Error already logged in setupControls, but this is a safeguard for autoRotate's direct usage
+      console.error("AutoRotate: CRITICAL ERROR: rotationSpeed slider not found in DOM! Will use default speed 1.0.");
+    }
 
     setInterval(() => {
       if (this.isAutoRotating) {
-        const currentSpeed = parseFloat(rotationSpeedSlider.value) || 1.0;
+        let currentSpeed = 1.0; // Default speed
+        if (rotationSpeedSlider) {
+            currentSpeed = parseFloat(rotationSpeedSlider.value) || 1.0;
+        }
+        // Keep this log for detailed tick information
+        console.log("Auto-rotate tick. Current speed:", currentSpeed, "isAutoRotating:", this.isAutoRotating); 
         tick += 0.5 * currentSpeed;
         document.getElementById('rotateWX').value = Math.sin(tick * 0.02) * 180 + 180;
         document.getElementById('rotateWY').value = Math.sin(tick * 0.015) * 180 + 180;
